@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     taskForm.addEventListener('submit', addTask);
     taskList.addEventListener('click', updateTask);
+    searchInput.addEventListener('input', searchTasks);
 
     function addTask(event) {
         event.preventDefault();
@@ -28,10 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         displayTasks();
         taskForm.reset();
     }
-    function displayTasks() {
+
+    function displayTasks(filteredTasks = tasks) {
         taskList.innerHTML = '';
 
-        tasks.forEach((task, index) => {
+        filteredTasks.forEach((task, index) => {
             const row = document.createElement('tr');
 
             row.innerHTML = `
@@ -49,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             taskList.appendChild(row);
         });
     }
+
     function updateTask(event) {
         const action = event.target.getAttribute('data-action');
         const index = event.target.getAttribute('data-index');
@@ -60,5 +63,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         displayTasks();
+    }
+
+    function searchTasks(event) {
+        const searchTerm = event.target.value.toLowerCase();
+
+        const filteredTasks = tasks.filter(task => task.title.toLowerCase().includes(searchTerm));
+        
+        displayTasks(filteredTasks);
     }
 });
