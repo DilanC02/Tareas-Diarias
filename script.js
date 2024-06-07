@@ -49,3 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
             taskList.appendChild(row);
         });
     }
+    function updateTask(event) {
+        const action = event.target.getAttribute('data-action');
+        const index = event.target.getAttribute('data-index');
+
+        if (action === 'toggle') {
+            tasks[index].status = tasks[index].status === 'Pendiente' ? 'Completada' : 'Pendiente';
+        } else if (action === 'delete') {
+            tasks.splice(index, 1);
+        }
+
+        displayTasks();
+    }
+});
